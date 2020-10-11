@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consumindo api</title>
+</head>
+<body>
+    
+    Partidos politicos
+
+    <form id="partidos" action="parlamentares.html" method="get">
+        <input type="submit" value="verificar parlamentares">
+    </form>
+
+
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+
+        $.ajax({
+        type: 'GET',
+        url: "https://dadosabertos.camara.leg.br/api/v2/partidos?ordem=ASC&ordenarPor=sigla",
+            success: function(data) {                
+                for(let i = 0; data.dados.length > i; i++){
+                    var el = document.createElement("input");
+                    el.type = "radio";
+                    let id = el.id;
+                    el.name = "partidos";
+                    el.value = data.dados[i].id;
+
+                    var label = document.createElement("label");
+                    label.innerHTML = data.dados[i].sigla;
+                    document.getElementById("partidos").appendChild(el);
+                    document.getElementById("partidos").appendChild(label);
+                }
+            }
+        });
+
+        $.ajax({
+        type: 'GET',
+        url: "https://dadosabertos.camara.leg.br/api/v2/partidos?ordem=ASC&ordenarPor=sigla",
+            success: function(data) {                
+                for(let i = 0; data.dados.length > i; i++){
+                    var el = document.createElement("input");
+                    el.type = "radio";
+                    let id = el.id;
+                    el.name = "partidos";
+                    el.value = data.dados[i].id;
+
+                    var label = document.createElement("label");
+                    label.innerHTML = data.dados[i].sigla;
+                    document.getElementById("partidos").appendChild(el);
+                    document.getElementById("partidos").appendChild(label);
+                }
+            }
+        });
+
+        
+
+    </script>
+
+</body>
+</html>

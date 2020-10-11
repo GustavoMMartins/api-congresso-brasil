@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consumindo api</title>
+</head>
+<body>
+    
+    Partidos politicos
+
+    <form action="parlamentares.html" method="get" id="partidos">
+        <input type="submit" value="verificar parlamentares">
+    </form>
+
+    <div id="parlamentares">
+
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+
+        $.ajax({
+        type: 'GET',
+        url: "https://dadosabertos.camara.leg.br/api/v2/partidos?ordem=ASC&ordenarPor=sigla",
+            success: function(data) {                
+                for(let i = 0; data.dados.length > i; i++){
+                    var el = document.createElement("input");
+                    el.type = "radio";
+                    let id = el.id;
+                    el.name = "partidos";
+                    el.value = data.dados[i].id;
+
+                    var label = document.createElement("label");
+                    label.innerHTML = data.dados[i].sigla;
+
+                    document.getElementById("partidos").appendChild(el);
+                    document.getElementById("partidos").appendChild(label);
+                }
+            }
+        });
+
+        var url_atual = window.location.href;
+        var split = url_atual.split("=");
+        console.log(split[1]);
+
+        $.ajax({
+        type: 'GET',
+        url: `https://dadosabertos.camara.leg.br/api/v2/partidos/${split[1]}/membros?dataInicio=2019-01-01&dataFim=2022-12-31`,
+            success: function(data) {                
+                for(let i = 0; data.dados.length > i; i++){
+
+                    var el = document.createElement("h3");
+                    el.innerHTML = "nome: " + data.dados[i].nome;
+
+                    var el2 = document.createElement("p");
+                    el2.innerHTML = "Partido: " + data.dados[i].siglaPartido;
+
+                    var el3 = document.createElement("p");
+                    el3.innerHTML = "UF: " +  data.dados[i].siglaUf;
+
+                    var el4 = document.createElement("p");
+                    el4.innerHTML = "Email: " + data.dados[i].email;
+
+                    var el5 = document.createElement("img");
+                    el5.src = data.dados[i].urlFoto;
+
+                    document.getElementById("parlamentares").appendChild(el);
+                    document.getElementById("parlamentares").appendChild(el2);
+                    document.getElementById("parlamentares").appendChild(el3);
+                    document.getElementById("parlamentares").appendChild(el4);
+                    document.getElementById("parlamentares").appendChild(el5);
+                }
+            }
+        });
+
+
+    </script>
+
+</body>
+</html>
